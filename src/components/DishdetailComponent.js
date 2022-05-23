@@ -7,7 +7,7 @@ class DishDetails extends Component {
     renderDishDetails(comments) {
         const menu = comments.map((comment) => {
             return (
-                <blockquote className="blockquote">
+                <blockquote key={comment.id} className="blockquote">
                     <p className="mb-2">{comment.comment}</p>
                     <footer className="blockquote-footer">{comment.author},<cite title="Source Title">{moment(new Date(comment.date)).format("MMMM Do YYYY")}</cite></footer>
                 </blockquote>
@@ -16,9 +16,7 @@ class DishDetails extends Component {
   
         return (
             <div className="container">
-                <div className="row">
-                    {menu}
-                </div>
+                {menu}
             </div>
         );
       }
@@ -28,7 +26,7 @@ class DishDetails extends Component {
                 return (
                 <div className="container">
                     <div className="row">
-                        <div key={this.props.did} className="col-12 col-md-5 m-1">
+                        <div className="col-12 col-md-5 m-1">
                             <Card>
                             <CardImg top src={this.props.dish.image} alt={this.props.dish.name} />
                                 <CardBody>
