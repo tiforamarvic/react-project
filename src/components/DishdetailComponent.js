@@ -1,54 +1,77 @@
-import React, { Component } from 'react';
-import { Card, CardImg, CardBody,CardText,CardTitle } from 'reactstrap';
+import React from 'react';
+import { Card, CardImg, CardText, CardBody,
+    CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import { Link } from 'react-router-dom';
 import moment from "moment";
 
-class DishDetails extends Component {
+    function RenderComments({comments}) {
+        if (comments != null) {
 
-    renderDishDetails(comments) {
-        const menu = comments.map((comment) => {
-            return (
-                <blockquote key={comment.id} className="blockquote">
-                    <p className="mb-2">{comment.comment}</p>
-                    <footer className="blockquote-footer">{comment.author},<cite title="Source Title">{moment(new Date(comment.date)).format("MMMM Do YYYY")}</cite></footer>
-                </blockquote>
-            );
-        });
-  
-        return (
-            <div className="container">
-                {menu}
-            </div>
-        );
-      }
-
-    render() {
-        if (this.props.dish != null) {
+            const menu = comments.map((cmnt) => {
                 return (
-                <div className="container">
-                    <div className="row">
-                        <div className="col-12 col-md-5 m-1">
-                            <Card>
-                            <CardImg top src={this.props.dish.image} alt={this.props.dish.name} />
-                                <CardBody>
-                                <CardTitle>{this.props.dish.name}</CardTitle>
-                                <CardText>{this.props.dish.description}</CardText>
-                            </CardBody>
-                        </Card> 
+                    <blockquote key={cmnt.id} className="blockquote">
+                        <p className="mb-2">{cmnt.comment}</p>
+                        <footer className="blockquote-footer">{cmnt.author},<cite title="Source Title">{moment(new Date(cmnt.date)).format("MMMM Do YYYY")}</cite></footer>
+                    </blockquote>
+                );
+            });
+
+            return (
+                <div className="col-12 col-md-5 m-1">
+                    <h1>Comments</h1>
+                    {menu}
+                </div>
+            );
+
+        } else {
+            <div className="col-12 col-md-5 m-1"></div>
+        }
+    }
+
+    function RenderDishDetails({dish}) {
+        if (dish != null) {
+            return (
+                <div className="col-12 col-md-5 m-1">
+                    <Card>
+                        <CardImg top src={dish.image} alt={dish.name} />
+                        <CardBody>
+                            <CardTitle>{dish.name}</CardTitle>
+                            <CardText>{dish.description}</CardText>
+                        </CardBody>
+                    </Card> 
+                </div>
+            );
+        } else {
+            <div className="col-12 col-md-5 m-1"></div>
+        }
+    }
+
+    const DishDetail = (props) => {
+        if (props.dish != null) {
+                return (
+                    <div className="container">
+                        <div className="row">
+                            <Breadcrumb>
+                                <BreadcrumbItem><Link to="/menu">Menu</Link></BreadcrumbItem>
+                                <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
+                            </Breadcrumb>
+                            <div className="col-12">
+                                <h3>{props.dish.name}</h3>
+                                <hr />
+                            </div>                
                         </div>
-                        <div className="col-12 col-md-5 m-1">
-                            <h1>Comments</h1>
-                           {this.renderDishDetails(this.props.dish.comments)}
+                        <div className="row">
+                            <RenderDishDetails dish={props.dish} />
+                            <RenderComments comments={props.comments} />
                         </div>
                     </div>
-                </div>
                 );
         } else {
             return (
-                <div className="row"></div>
+                <div className="row">
+                </div>
             );
         }
     }
-    
-}
 
-export default DishDetails;
+export default DishDetail;
