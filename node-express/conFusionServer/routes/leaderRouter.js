@@ -23,7 +23,8 @@ leaderRouter.route('/:leaderId?')
 })
 .put((req, res, next) => {
     if (req.params.leaderId) {
-        res.end(`Sending details of the dish back to you: ${req.params.leaderId}`)
+        res.write('Updating the leader: ' + req.params.leaderId + '\n');
+        res.end('Will update the leader: ' + req.body.name + ' with details: ' + req.body.description);
     } else {
         res.end('Sending all leaders back to you');
     }
